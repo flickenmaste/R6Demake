@@ -7,6 +7,9 @@ public class Shooting : MonoBehaviour {
     public Vector3 shootDirection;
     public GameObject gun;
     public Rigidbody bullet;
+    public Vector3 leanVec;
+    public KeyCode lastMoveKey;
+    public bool isLeaning = false;
     
     // Use this for initialization
 	void Start () 
@@ -18,7 +21,17 @@ public class Shooting : MonoBehaviour {
 	void Update () 
     {
         ChangeAim();
-        Debug.DrawRay(this.gameObject.transform.position, rayDirection, Color.red);
+        lean();
+        if (isLeaning == true)
+        {
+            Debug.DrawRay(leanVec, rayDirection, Color.red);
+            gun.gameObject.transform.position = (leanVec + rayDirection);
+        }
+        else if (isLeaning == false)
+        {
+            Debug.DrawRay(this.gameObject.transform.position, rayDirection, Color.red);
+            gun.gameObject.transform.position = (this.gameObject.transform.position + rayDirection);
+        }
         Shoot();
 	}
 
@@ -31,24 +44,32 @@ public class Shooting : MonoBehaviour {
                 rayDirection = new Vector3(0, 0, 1);
                 gun.gameObject.transform.position = (this.gameObject.transform.position + rayDirection);
                 shootDirection = new Vector3(0, 0, 1);
+                lastMoveKey = KeyCode.W;
+                isLeaning = false;
             }
             if (Input.GetKey(KeyCode.S))
             {
                 rayDirection = new Vector3(0, 0, -1);
                 gun.gameObject.transform.position = (this.gameObject.transform.position + rayDirection);
                 shootDirection = new Vector3(0, 0, -1);
+                lastMoveKey = KeyCode.S;
+                isLeaning = false;
             }
             if (Input.GetKey(KeyCode.A))
             {
                 rayDirection = new Vector3(-1, 0, 0);
                 gun.gameObject.transform.position = (this.gameObject.transform.position + rayDirection);
                 shootDirection = new Vector3(-1, 0, 0);
+                lastMoveKey = KeyCode.A;
+                isLeaning = false;
             }
             if (Input.GetKey(KeyCode.D))
             {
                 rayDirection = new Vector3(1, 0, 0);
                 gun.gameObject.transform.position = (this.gameObject.transform.position + rayDirection);
                 shootDirection = new Vector3(1, 0, 0);
+                lastMoveKey = KeyCode.D;
+                isLeaning = false;
             }
         }
         if (Input.GetKey(KeyCode.Space))
@@ -64,6 +85,62 @@ public class Shooting : MonoBehaviour {
             Rigidbody clone;
             clone = Instantiate(bullet, gun.gameObject.transform.position, Quaternion.identity) as Rigidbody;
             clone.velocity += shootDirection * 10;
+        }
+    }
+    
+    void lean()
+    {
+        if (lastMoveKey == KeyCode.W)
+        {
+            if (Input.GetKey(KeyCode.Q))
+            {
+                isLeaning = true;
+                leanVec = new Vector3(this.transform.position.x - 0.5f, this.transform.position.y, this.transform.position.z);
+            }
+            if (Input.GetKey(KeyCode.E))
+            {
+                isLeaning = true;
+                leanVec = new Vector3(this.transform.position.x + 0.5f, this.transform.position.y, this.transform.position.z);
+            }
+        }
+        if (lastMoveKey == KeyCode.S)
+        {
+            if (Input.GetKey(KeyCode.Q))
+            {
+                isLeaning = true;
+                leanVec = new Vector3(this.transform.position.x - 0.5f, this.transform.position.y, this.transform.position.z);
+            }
+            if (Input.GetKey(KeyCode.E))
+            {
+                isLeaning = true;
+                leanVec = new Vector3(this.transform.position.x + 0.5f, this.transform.position.y, this.transform.position.z);
+            }
+        }
+        if (lastMoveKey == KeyCode.A)
+        {
+            if (Input.GetKey(KeyCode.Q))
+            {
+                isLeaning = true;
+                leanVec = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z - 0.5f);
+            }
+            if (Input.GetKey(KeyCode.E))
+            {
+                isLeaning = true;
+                leanVec = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + 0.5f);
+            }
+        }
+        if (lastMoveKey == KeyCode.D)
+        {
+            if (Input.GetKey(KeyCode.Q))
+            {
+                isLeaning = true;
+                leanVec = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z + 0.5f);
+            }
+            if (Input.GetKey(KeyCode.E))
+            {
+                isLeaning = true;
+                leanVec = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z - 0.5f);
+            }
         }
     }
 }

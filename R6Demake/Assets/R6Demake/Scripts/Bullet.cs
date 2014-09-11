@@ -15,6 +15,16 @@ public class Bullet : MonoBehaviour {
 
     void OnCollisionStay(Collision c)
     {
+        if (c.gameObject.tag == "Player")
+        {
+            Application.LoadLevel("level_one");
+        }
+
+        if (c.gameObject.tag == "Enemy")
+        {
+            DestroyObject(c.gameObject, 0);
+        }
+        
         DestroyObject(this.gameObject, 0f);
     }
 }

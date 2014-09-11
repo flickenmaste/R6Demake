@@ -3,7 +3,8 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
-	// Use this for initialization
+    
+    // Use this for initialization
 	void Start () 
     {
         this.gameObject.renderer.material.color = Color.green;
