@@ -10,6 +10,7 @@ public class Shooting : MonoBehaviour {
     public Vector3 leanVec;
     public KeyCode lastMoveKey;
     public bool isLeaning = false;
+    public float nextFire = -1.0f;
     
     // Use this for initialization
 	void Start () 
@@ -82,9 +83,13 @@ public class Shooting : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Rigidbody clone;
-            clone = Instantiate(bullet, gun.gameObject.transform.position, Quaternion.identity) as Rigidbody;
-            clone.velocity += shootDirection * 10;
+            if (Time.time >= nextFire)
+            {
+                Rigidbody clone;
+                clone = Instantiate(bullet, gun.gameObject.transform.position, Quaternion.identity) as Rigidbody;
+                clone.velocity += shootDirection * 10;
+                nextFire = Time.time + 0.4f;
+            }
         }
     }
     
