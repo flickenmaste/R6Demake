@@ -11,6 +11,7 @@ public class Shooting : MonoBehaviour {
     public KeyCode lastMoveKey;
     public bool isLeaning = false;
     public float nextFire = -1.0f;
+    public Camera mainCam;
     
     // Use this for initialization
 	void Start () 
@@ -146,6 +147,11 @@ public class Shooting : MonoBehaviour {
                 isLeaning = true;
                 leanVec = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z - 0.5f);
             }
+        }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            isLeaning = false;
+            gun.gameObject.transform.position = (this.gameObject.transform.position + rayDirection);
         }
     }
 }

@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour {
     public Rigidbody bullet;
     public float nextFire = -1.0f;
     public float speed = 100.0f;
+    public bool isFlashed = false;
+    public float nextFlash = -1.0f;
     
     // Use this for initialization
 	void Start () 
@@ -24,18 +26,25 @@ public class Enemy : MonoBehaviour {
     void FollowEnemy()
     {
         RaycastHit hit;
-        if (Physics.Linecast(this.rigidbody.position, player.rigidbody.position, out hit))
+        if (!isFlashed)
         {
-            if (hit.collider.tag == "Player")
+            if (Physics.Linecast(this.rigidbody.position, player.rigidbody.position, out hit))
             {
-                if (Time.time >= nextFire)
+                if (hit.collider.tag == "Player")
                 {
-                    var rotate = Quaternion.LookRotation(player.transform.position - this.transform.position);
-                    this.transform.rotation = Quaternion.Slerp(transform.rotation, rotate, speed);
-                    Shoot();
-                    nextFire = Time.time + 1.0f;
+                    if (Time.time >= nextFire)
+                    {
+                        var rotate = Quaternion.LookRotation(player.transform.position - this.transform.position);
+                        this.transform.rotation = Quaternion.Slerp(transform.rotation, rotate, speed);
+                        Shoot();
+                        nextFire = Time.time + 1.0f;
+                    }
                 }
             }
+        }
+        if (isFlashed)
+        {
+            StartCoroutine(CheckFlashed());
         }
         Debug.DrawLine(this.rigidbody.position, player.rigidbody.position);
     }
@@ -48,4 +57,9 @@ public class Enemy : MonoBehaviour {
         Eclone.velocity += this.transform.forward * 10;
     }
 
+    IEnumerator CheckFlashed()
+    {
+        yield return new WaitForSeconds(3);
+        isFlashed = false;
+    }
 }

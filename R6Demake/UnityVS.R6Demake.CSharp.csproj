@@ -63,6 +63,8 @@
     <Compile Include="Assets\6by7\ProBuilder\Classes\pbVersionBridge.cs" />
     <Compile Include="Assets\R6Demake\Scripts\Bullet.cs" />
     <Compile Include="Assets\R6Demake\Scripts\Enemy.cs" />
+    <Compile Include="Assets\R6Demake\Scripts\FlashDestroy.cs" />
+    <Compile Include="Assets\R6Demake\Scripts\Flashbang.cs" />
     <Compile Include="Assets\R6Demake\Scripts\Player.cs" />
     <Compile Include="Assets\R6Demake\Scripts\Shooting.cs" />
     <None Include="Assets\6by7\ProBuilder\API Examples\Instantiation\README.txt" />
